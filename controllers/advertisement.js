@@ -42,7 +42,7 @@ var controller = {
 
     Advertisement.findById(advertisementId, (err, advertisement) => {
       if(err) return res.status(500).send({
-        message: 'Error en el servicio'
+        message: err
       });
       if(!advertisement) return res.status(404).send({ message: 'Anuncio no encontrado.' });
 
@@ -50,11 +50,25 @@ var controller = {
     });
   },
 
+  // getAdvertisements: function(req, res) {
+  //   const options = req.body;
+  //   Advertisement.find(options).sort('-lastModified').exec((err, advertisements) => {
+  //     if(err) return res.status(500).send({ message: err });
+  //     if(!advertisements) return res.status(404).send({ message: 'Anuncio no encontrado.' });
+
+  //     return res.status(200).send({ advertisements });
+  //   });
+  // },
+
   getAdvertisements: function(req, res) {
-    const options = req.body;
-    Advertisement.find(options).sort('-lastModified').exec((err, advertisements) => {
-      if(err) return res.status(500).send({ message: 'Error en el servicio.' });
-      if(!advertisements) return res.status(404).send({ message: 'Anuncio no encontrado.' });
+    const { published, orderBy } = req.query;
+
+    Advertisement.find({ 'published': published }).sort(orderBy).exec((err, advertisements) => {
+      if (err) {
+        return res.status(500).send({ message: err });
+      }
+
+      if (!advertisements) return res.status(404).send({ message: 'Anuncio no encontrado.' });
 
       return res.status(200).send({ advertisements });
     });
@@ -66,7 +80,7 @@ var controller = {
     Object.assign(update, { lastModified: new Date(Date.now()) });
 
     Advertisement.findByIdAndUpdate(advertisementId, update, {new: true}, (err, advertisementUpdated) => {
-      if(err) return res.status(500).send({ message: 'Error en el servicio' });
+      if(err) return res.status(500).send({ message: err });
       if(!advertisementUpdated) return res.status(404).send({ message: 'Anuncio no encontrado.' });
 
       return res.status(200).send({ advertisement: advertisementUpdated });
@@ -78,7 +92,7 @@ var controller = {
     var advertisementId = req.params.id;
 
     Advertisement.findByIdAndDelete(advertisementId, (err, advertisementDeleted) => {
-      if(err) return res.status(500).send({ message: 'Error en el servicio' });
+      if(err) return res.status(500).send({ message: err });
       if(!advertisementDeleted) return res.status(404).send({ message: 'Anuncio no encontrado.' });
 
       return res.status(200).send({ advertisement: advertisementDeleted });

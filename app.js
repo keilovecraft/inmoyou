@@ -6,6 +6,7 @@
 var express = require('express');
 // Para unificar el cliente
 var path = require('path');
+var cors = require('cors');
 
 var app = express();
 
@@ -14,9 +15,11 @@ var user_routes = require('./routes/user');
 var advertisement_routes = require('./routes/advertisement');
 
 // Middlewares
-app.use(express.urlencoded({extended: false} ));
+app.use(express.urlencoded({ limit: '150000mb', extended: false} ));
 // parse application/json
-app.use(express.json());
+app.use(express.json({ limit: '150000mb' }));
+
+app.options('*', cors());
 
 // Configurar cabeceras y CORS
 app.use((req, res, next) => {

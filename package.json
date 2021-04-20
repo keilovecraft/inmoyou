@@ -1,5 +1,5 @@
 {
-  "name": "inmoyou-backend",
+  "name": "inmoyou",
   "version": "1.0.0",
   "description": "API Rest para InmoYou",
   "main": "index.js",
@@ -11,6 +11,7 @@
   "author": "Carmen García",
   "license": "MIT",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-fileupload": "^1.2.1",

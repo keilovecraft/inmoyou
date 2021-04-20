@@ -97,7 +97,7 @@ var controller = {
   },
 
   updateUser: function(req, res) {
-    var userId = req.params.id;
+    var userId = req.params.id || req.body._id;
     var update = req.body;
     const model = req.body._type === 'company' ? UserCompany : UserPerson;
 

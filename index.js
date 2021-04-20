@@ -4,7 +4,6 @@ require('dotenv').config({ path: 'variables.env'});
 
 var mongoose = require('mongoose');
 var app = require('./app');
-var host = process.env.HOST || '0.0.0.0';
 var port = process.env.PORT || 3700;
 
 
@@ -18,10 +17,11 @@ mongoose.connect(process.env.DB_URL, {
   })
   .then(() => {
     console.log('Conexión a la base de datos establecida');
+    console.log(`Mongo: ${process.env.DB_URL}`);
 
     // Creación del servidor
-    app.listen(port, host, () => {
-      console.log(`Servidor corriendo en ${host}:${port}`);
+    app.listen(port, () => {
+      console.log(`Servidor corriendo en el puerto ${port}`);
     });
 
   })
